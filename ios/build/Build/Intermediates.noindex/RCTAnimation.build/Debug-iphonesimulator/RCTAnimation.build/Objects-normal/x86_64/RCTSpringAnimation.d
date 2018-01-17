@@ -1,0 +1,19 @@
+dependencies: \
+  /Users/anishduwal/MyProjects/event-calendar/node_modules/react-native/Libraries/NativeAnimation/Drivers/RCTSpringAnimation.m \
+  /Users/anishduwal/MyProjects/event-calendar/node_modules/react-native/Libraries/NativeAnimation/Drivers/RCTSpringAnimation.h \
+  /Users/anishduwal/MyProjects/event-calendar/node_modules/react-native/Libraries/NativeAnimation/Drivers/RCTAnimationDriver.h \
+  /Users/anishduwal/MyProjects/event-calendar/ios/build/Build/Products/Debug-iphonesimulator/include/React/RCTBridgeModule.h \
+  /Users/anishduwal/MyProjects/event-calendar/ios/build/Build/Products/Debug-iphonesimulator/include/React/RCTDefines.h \
+  /Users/anishduwal/MyProjects/event-calendar/ios/build/Build/Products/Debug-iphonesimulator/include/React/RCTConvert.h \
+  /Users/anishduwal/MyProjects/event-calendar/ios/build/Build/Products/Debug-iphonesimulator/include/React/RCTAnimationType.h \
+  /Users/anishduwal/MyProjects/event-calendar/ios/build/Build/Products/Debug-iphonesimulator/include/React/RCTBorderStyle.h \
+  /Users/anishduwal/MyProjects/event-calendar/ios/build/Build/Products/Debug-iphonesimulator/include/React/RCTLog.h \
+  /Users/anishduwal/MyProjects/event-calendar/ios/build/Build/Products/Debug-iphonesimulator/include/React/RCTAssert.h \
+  /Users/anishduwal/MyProjects/event-calendar/ios/build/Build/Products/Debug-iphonesimulator/include/React/RCTUtils.h \
+  /Users/anishduwal/MyProjects/event-calendar/ios/build/Build/Products/Debug-iphonesimulator/include/React/RCTPointerEvents.h \
+  /Users/anishduwal/MyProjects/event-calendar/ios/build/Build/Products/Debug-iphonesimulator/include/React/RCTTextDecorationLineType.h \
+  /Users/anishduwal/MyProjects/event-calendar/ios/build/Build/Products/Debug-iphonesimulator/include/yoga/Yoga.h \
+  /Users/anishduwal/MyProjects/event-calendar/ios/build/Build/Products/Debug-iphonesimulator/include/yoga/YGEnums.h \
+  /Users/anishduwal/MyProjects/event-calendar/ios/build/Build/Products/Debug-iphonesimulator/include/yoga/YGMacros.h \
+  /Users/anishduwal/MyProjects/event-calendar/node_modules/react-native/Libraries/NativeAnimation/Nodes/RCTValueAnimatedNode.h \
+  /Users/anishduwal/MyProjects/event-calendar/node_modules/react-native/Libraries/NativeAnimation/Nodes/RCTAnimatedNode.h
