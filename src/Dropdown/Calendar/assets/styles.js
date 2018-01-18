@@ -5,6 +5,7 @@ const styles = StyleSheet.create({
     flexDirection    : 'column',
     borderBottomColor: '#ccc',
     borderBottomWidth: 1,
+    flex             : 1
   },
   dayBlock: {
     flex          : 1,

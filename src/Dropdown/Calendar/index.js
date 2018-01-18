@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { lifecycle } from 'recompose';
 import { View, TouchableOpacity, Text } from 'react-native';
-import Calendar from 'app/generics/Calendar';
+import Calendar from 'src/generics/Calendar';
 import styles from './assets/styles';
 
 const DropdownCalendar = ({ selectedDate, changeDate }) => (
