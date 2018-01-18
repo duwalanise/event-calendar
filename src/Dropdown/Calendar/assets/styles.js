@@ -7,15 +7,6 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     flex             : 1
   },
-  dayBlock: {
-    flex          : 1,
-    alignItems    : 'center',
-    justifyContent: 'center',
-    padding       : 10
-  },
-  dayText: {
-    fontWeight: 'bold'
-  }
 });
 
 export default styles;

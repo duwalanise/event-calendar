@@ -6,6 +6,7 @@ import {
 import moment from 'moment';
 import styles from './assets/styles';
 import Dropdown from './Dropdown';
+import Calendar from './Calendar';
 
 export const viewList = [
   { id: 1, icon: 'view-stream', label: 'Schedule' },
@@ -18,7 +19,7 @@ export default class App extends Component<{}> {
   render() {
     return (
       <View style={styles.container}>
-        <Dropdown selectedDate={moment()} selectedView={viewList[0]}/>
+        <Calendar />
       </View>
     );
   }

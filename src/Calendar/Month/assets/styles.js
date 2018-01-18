@@ -18,6 +18,15 @@ const styles = StyleSheet.create({
   weekBlock: {
     flex         : 1,
     flexDirection: 'row'
+  },
+  dayBlock: {
+    flex          : 1,
+    alignItems    : 'center',
+    justifyContent: 'center',
+    padding       : 10
+  },
+  dayText: {
+    fontWeight: 'bold'
   }
 });
 

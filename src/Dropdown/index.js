@@ -31,7 +31,7 @@ class Dropdown extends Component {
     const {isDropdownCalendar, showDropdown} = this.state;
     const {selectedDate, selectedView} = this.props;
     return(
-      <View style={{flex: 1}}>
+      <View>
         <View style={styles.container}>
           <TouchableOpacity
             style={styles.panel}
@@ -50,10 +50,11 @@ class Dropdown extends Component {
             <Text style={styles.rightPanelText}>{selectedView.label}</Text>
           </TouchableOpacity>
         </View>
-        <View style={{flex: 1}}>
-          <Calendar selectedDate={selectedDate} changeDate={this.onDateChange}/>
-          <Calendar selectedDate={selectedDate} changeDate={this.onDateChange}/>
-        </View>
+        {showDropdown && isDropdownCalendar &&
+          <View style={{height: 300}}>
+            <Calendar selectedDate={selectedDate} changeDate={this.onDateChange}/>
+          </View>
+        }
       </View>
     )
   }
