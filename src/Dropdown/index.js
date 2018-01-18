@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import { Text, View, TouchableOpacity } from 'react-native';
 import styles from './assets/styles';
-
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 class Dropdown extends Component {
   constructor(props) {
@@ -23,7 +23,7 @@ class Dropdown extends Component {
   }
 
   render() {
-    const {isDropdownCalendar} = this.state;
+    const {isDropdownCalendar, showDropdown} = this.state;
     const {selectedDate, selectedView} = this.props;
     return(
       <View style={styles.container}>
@@ -34,11 +34,13 @@ class Dropdown extends Component {
           <Text style={{ fontSize: 20 }}>
             {selectedDate.format('MMMM')}
           </Text>
+          <Icon name={isDropdownCalendar && showDropdown? 'menu-up' : 'menu-down'} size={21} color="#939393" />
         </TouchableOpacity>
         <TouchableOpacity
           style={styles.panel}
           onPress={() => this.toggleDropdown(false)}
         >
+          <Icon name={selectedView.icon} size={21} color="#939393" />
           <Text style={styles.rightPanelText}>{selectedView.label}</Text>
         </TouchableOpacity>
       </View>

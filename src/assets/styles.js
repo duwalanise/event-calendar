@@ -4,6 +4,6 @@ export default StyleSheet.create({
   container: {
     flex: 1,
     alignItems: 'stretch',
-    paddingTop: 20
+    paddingTop: 10
   },
 });
