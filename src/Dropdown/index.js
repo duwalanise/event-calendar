@@ -24,7 +24,7 @@ class Dropdown extends Component {
   }
 
   onDateChange = date => {
-    console.log(date);
+    console.log(date.format('MMMM'));
   }
 
   render() {

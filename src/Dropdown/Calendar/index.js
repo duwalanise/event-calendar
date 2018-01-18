@@ -14,8 +14,8 @@ const DropdownCalendar = ({ selectedDate, changeDate }) => (
             <Text style={styles.dayText}>{day}</Text>
           </View>
         }
-        renderDay={day => {
-          if(day.isSame(selectedDate, 'month'))
+        renderDay={(day, currentDate) => {
+          if(day.isSame(currentDate, 'month'))
             return (
               <TouchableOpacity onPress={() => changeDate(day)} style={styles.dayBlock}>
                 <Text>{day.date()}</Text>
