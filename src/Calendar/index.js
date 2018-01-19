@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import moment from 'moment';
 import { ScrollView, Dimensions } from 'react-native';
 
-//import DailyCalendar from './Day';
+import DailyCalendar from './Day';
 //import WeeklyCalendar from './Week';
 import MonthlyCalendar from './Month';
 
@@ -34,15 +34,16 @@ class Calendar extends Component {
 
   onSwipe = ({nativeEvent}) => {
     const offsetX = nativeEvent.contentOffset.x;
+    const {view} = this.props;
     switch(offsetX/width) {
       case 0:
         this.setState((state) => ({
-          RNCurrentDate: state.RNCurrentDate.clone().subtract(1, 'months')
+          RNCurrentDate: state.RNCurrentDate.clone().subtract(1, 'days')
         }), this.scrollToCenter());
         return;
       case 2:
         this.setState((state) => ({
-          RNCurrentDate: state.RNCurrentDate.clone().add(1, 'months')
+          RNCurrentDate: state.RNCurrentDate.clone().add(1, 'days')
         }), this.scrollToCenter());
         return;
       default: 

@@ -5,14 +5,21 @@ import {View, Text} from 'react-native';
 import { weekShort, generateMonthArray } from 'src/generics/helpers/calendar';
 import styles from './assets/styles';
 
-const defaultBodyCell = (day, currentDate) => {
-  if(day.isSame(currentDate, 'month'))
-    return (
-      <View style={styles.dayBlock}>
-        <Text>{day.date()}</Text>
+const defaultBodyCell = (day, currentDate, events) => {
+  const isSameMonth = true;
+  const isToday = false;
+  return (
+    <View style={styles.dayBlock}>
+      <View style={isToday && styles.today}>
+        <Text
+          style={[{ color: !isSameMonth && '#939393' }, isToday && styles.todayText]}>{day.date()}</Text>
       </View>
-    );
-  return <View style={styles.dayBlock} />;
+      {
+        (events || []).map( event =>
+          <View style={styles.eventBlock}><Text style={styles.eventText}>{event.name}</Text></View>
+        )
+      }
+  </View>);
 }
 
 const defaultHeaderCell = day =>
