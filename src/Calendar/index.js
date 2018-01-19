@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
 import { ScrollView, Dimensions } from 'react-native';
@@ -7,17 +7,17 @@ import DailyCalendar from './Day';
 import WeeklyCalendar from './Week';
 import MonthlyCalendar from './Month';
 
-const {width} = Dimensions.get("window");
+const { width } = Dimensions.get('window');
 
 class Calendar extends Component {
   static propTypes = {
     view: PropTypes.string,
-    date: PropTypes.instanceOf(moment),
+    date: PropTypes.instanceOf(moment)
   };
 
   static defaultProps = {
-    date: moment(),
-  }
+    date: moment()
+  };
 
   constructor(props) {
     super(props);
@@ -34,25 +34,31 @@ class Calendar extends Component {
 
   onSwipe = (nativeEvent, unit) => {
     const offsetX = nativeEvent.contentOffset.x;
-    const {view} = this.props;
-    switch(offsetX/width) {
+    const { view } = this.props;
+    switch (offsetX / width) {
       case 0:
-        this.setState((state) => ({
-          RNCurrentDate: state.RNCurrentDate.clone().subtract(1, unit)
-        }), this.scrollToCenter());
+        this.setState(
+          state => ({
+            RNCurrentDate: state.RNCurrentDate.clone().subtract(1, unit)
+          }),
+          this.scrollToCenter()
+        );
         return;
       case 2:
-        this.setState((state) => ({
-          RNCurrentDate: state.RNCurrentDate.clone().add(1, unit)
-        }), this.scrollToCenter());
+        this.setState(
+          state => ({
+            RNCurrentDate: state.RNCurrentDate.clone().add(1, unit)
+          }),
+          this.scrollToCenter()
+        );
         return;
-      default: 
+      default:
         return;
     }
-  }
+  };
 
   generateCalendar(view) {
-    switch(view) {
+    switch (view) {
       case 'daily':
       case 'day':
         return {
@@ -65,7 +71,7 @@ class Calendar extends Component {
           unit: 'weeks',
           Calendar: WeeklyCalendar
         };
-      default: 
+      default:
         return {
           unit: 'months',
           Calendar: MonthlyCalendar
@@ -74,25 +80,25 @@ class Calendar extends Component {
   }
 
   render() {
-    const {RNCurrentDate} = this.state;
-    const {view} = this.props;
+    const { RNCurrentDate } = this.state;
+    const { view } = this.props;
     const currentView = this.generateCalendar(view);
     const previous = RNCurrentDate.clone().subtract(1, currentView.unit);
     return (
       <ScrollView
-        ref={(c) => { this.scrollView = c; }}
+        ref={c => {
+          this.scrollView = c;
+        }}
         horizontal
         showsHorizontalScrollIndicator={false}
         pagingEnabled
-        contentOffset={{ x: width}}
-        onMomentumScrollEnd={({nativeEvent}) => this.onSwipe(nativeEvent, currentView.unit)}
+        contentOffset={{ x: width }}
+        onMomentumScrollEnd={({ nativeEvent }) => this.onSwipe(nativeEvent, currentView.unit)}
       >
-        {
-          [0,1,2].map(swipeIndex => {
-            const currentDate = previous.clone().add(swipeIndex, currentView.unit);
-            return <currentView.Calendar {...this.props} currentDate={currentDate} />
-          })
-        }
+        {[0, 1, 2].map(swipeIndex => {
+          const currentDate = previous.clone().add(swipeIndex, currentView.unit);
+          return <currentView.Calendar {...this.props} currentDate={currentDate} />;
+        })}
       </ScrollView>
     );
   }
