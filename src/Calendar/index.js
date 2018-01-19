@@ -32,18 +32,18 @@ class Calendar extends Component {
     }
   };
 
-  onSwipe = ({nativeEvent}) => {
+  onSwipe = (nativeEvent, unit) => {
     const offsetX = nativeEvent.contentOffset.x;
     const {view} = this.props;
     switch(offsetX/width) {
       case 0:
         this.setState((state) => ({
-          RNCurrentDate: state.RNCurrentDate.clone().subtract(1, 'days')
+          RNCurrentDate: state.RNCurrentDate.clone().subtract(1, unit)
         }), this.scrollToCenter());
         return;
       case 2:
         this.setState((state) => ({
-          RNCurrentDate: state.RNCurrentDate.clone().add(1, 'days')
+          RNCurrentDate: state.RNCurrentDate.clone().add(1, unit)
         }), this.scrollToCenter());
         return;
       default: 
@@ -51,22 +51,33 @@ class Calendar extends Component {
     }
   }
 
-  generateCalendar() {
-    const {view} = this.props;
-    const {RNCurrentDate} = this.state;
+  generateCalendar(view) {
     switch(view) {
       case 'daily':
       case 'day':
-        return <DailyCalendar {...this.props} RNCurrentDate={RNCurrentDate} />;
+        return {
+          unit: 'days',
+          calendar: DailyCalendar
+        };
       case 'weekly':
       case 'week':
-          return <WeeklyCalendar {...this.props} RNCurrentDate={RNCurrentDate} />;
+        return {
+          unit: 'weeks',
+          calendar: WeeklyCalendar
+        };
       default: 
-        return <MonthlyCalendar {...this.props} RNCurrentDate={RNCurrentDate} />;
+        return {
+          unit: 'months',
+          calendar: MonthlyCalendar
+        };
     }
   }
 
   render() {
+    const {RNCurrentDate} = this.state;
+    const {view} = this.props;
+    const currentView = this.generateCalendar(view);
+    const previous = RNCurrentDate.clone().subtract(1, currentView.unit);
     return (
       <ScrollView
         ref={(c) => { this.scrollView = c; }}
@@ -74,9 +85,14 @@ class Calendar extends Component {
         showsHorizontalScrollIndicator={false}
         pagingEnabled
         contentOffset={{ x: width}}
-        onMomentumScrollEnd={this.onSwipe}
+        onMomentumScrollEnd={({nativeEvent}) => this.onSwipe(nativeEvent, currentView.unit)}
       >
-        {this.generateCalendar()}
+        {
+          [0,1,2].map(swipeIndex => {
+            const currentDate = previous.clone().add(swipeIndex, currentView.unit);
+            return <currentView.calendar {...this.props} currentDate={currentDate} />
+          })
+        }
       </ScrollView>
     );
   }

@@ -13,31 +13,27 @@ const defaultHeader = currentDate =>
 const defaultBody = currentDate => <View style={styles.line} />
 
 const DailyCalendar = props => {
-  const { headerCell, bodyCell, RNCurrentDate, title, bodyStyle, headerStyle } = props;
-  const previousDay = RNCurrentDate.clone().subtract(1, 'days');
-  return [1,2,3].map(count => {
-    const currentDate = previousDay.clone().add(count, 'days');
-    return (
-      <View style={styles.container}>
-        {headerCell(currentDate)}
-        <ScrollView style={{flex: 1}}>
-          {
-            generateDayArray(currentDate).map((hours, idx) => {
-              return (
-                <View style={styles.row}>
-                  <View style={styles.hours}><Text>{hours.format('h A')}</Text></View>
-                  <View style={styles.events}>
-                    {bodyCell(hours)}
-                  </View>
+  const { headerCell, bodyCell, currentDate, title, bodyStyle, headerStyle } = props;
+  return (
+    <View style={styles.container}>
+      {headerCell(currentDate)}
+      <ScrollView style={{flex: 1}}>
+        {
+          generateDayArray(currentDate).map((hours, idx) => {
+            return (
+              <View style={styles.row}>
+                <View style={styles.hours}><Text>{hours.format('h A')}</Text></View>
+                <View style={styles.events}>
+                  {bodyCell(hours)}
                 </View>
-              );
-            }
-            )
+              </View>
+            );
           }
-        </ScrollView>
-      </View>
-    )
-  });
+          )
+        }
+      </ScrollView>
+    </View>
+  );
 }
 
 export default DailyCalendar;
@@ -46,7 +42,7 @@ DailyCalendar.propTypes = {
   headerCell: PropTypes.element,
   title: PropTypes.element,
   bodyCell: PropTypes.element,
-  RNCurrentDate: PropTypes.object,
+  currentDate: PropTypes.object,
   bodyStyle: PropTypes.object,
   headerStyle: PropTypes.object
 };

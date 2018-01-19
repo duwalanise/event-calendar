@@ -29,34 +29,29 @@ const defaultHeaderCell = currentDate =>
   </View>;
 
 const WeeklyCalendar = props => {
-    const { headerCell, bodyCell, RNCurrentDate, title, bodyStyle, headerStyle } = props;
-    const previousWeek = RNCurrentDate.clone().subtract(1, 'weeks');
-    return [0,1,2].map(count => {
-      const currentDate = previousWeek.clone().add(count,'weeks');
-      const currentWeek = generateWeekArray(currentDate);
-      return (
-        <View style={styles.container}>
-          <View style={[headerStyle, styles.header]}>
-            <View style={styles.dayBlock} />
-            {currentWeek.map(day => headerCell(day))}
-          </View>
-          <ScrollView style={{flex: 1}}>
-          {
-            generateDayArray(currentDate).map((hours, idx) =>
-              <View style={styles.row}>
-                <View style={styles.hours}><Text>{hours.format('h A')}</Text></View>
-                <View style={styles.events}>
-                  {
-                    currentWeek.map(day => defaultBodyCell(hours))
-                  }
-                </View>
+    const { headerCell, bodyCell, currentDate, title, bodyStyle, headerStyle } = props;
+    const currentWeek = generateWeekArray(currentDate);
+    return (
+      <View style={styles.container}>
+        <View style={[headerStyle, styles.header]}>
+          <View style={styles.dayBlock} />
+          {currentWeek.map(day => headerCell(day))}
+        </View>
+        <ScrollView style={{flex: 1}}>
+        {
+          generateDayArray(currentDate).map((hours, idx) =>
+            <View style={styles.row}>
+              <View style={styles.hours}><Text>{hours.format('h A')}</Text></View>
+              <View style={styles.events}>
+                {
+                  currentWeek.map(day => defaultBodyCell(hours))
+                }
               </View>
-            )
-          }
+            </View>
+          )
+        }
         </ScrollView>
       </View>
-      );
-    }
     );
   };
 
@@ -66,7 +61,7 @@ WeeklyCalendar.propTypes = {
   headerCell: PropTypes.element,
   title: PropTypes.element,
   bodyCell: PropTypes.element,
-  RNCurrentDate: PropTypes.object,
+  currentDate: PropTypes.object,
   bodyStyle: PropTypes.object,
   headerStyle: PropTypes.object
 };

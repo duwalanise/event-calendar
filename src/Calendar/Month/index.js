@@ -28,26 +28,21 @@ const defaultHeaderCell = day =>
   </View>;
 
 const MonthlyCalendar = props => {
-    const { headerCell, bodyCell, RNCurrentDate, title, bodyStyle, headerStyle } = props;
-    const previousMonth = RNCurrentDate.clone().subtract(1, 'months');
-    return [0,1,2].map(count => {
-      const currentDate = previousMonth.clone().add(count,'months');
-      return (
-        <View key={currentDate} style={styles.container}>
-          <View>{title && title(currentDate)}</View>
-          <View style={[headerStyle, styles.header]}>
-            {weekShort.map(day => headerCell(day))}
-          </View>
-          <View style={styles.body}>
-            {generateMonthArray(currentDate).map(week =>
-              <View style={[bodyStyle, styles.weekBlock]}>
-                {week.map(day => bodyCell(day, currentDate))}
-              </View>
-            )}
-          </View>
+    const { headerCell, bodyCell, currentDate, title, bodyStyle, headerStyle } = props;
+    return (
+      <View key={currentDate} style={styles.container}>
+        <View>{title && title(currentDate)}</View>
+        <View style={[headerStyle, styles.header]}>
+          {weekShort.map(day => headerCell(day))}
         </View>
-      );
-    }
+        <View style={styles.body}>
+          {generateMonthArray(currentDate).map(week =>
+            <View style={[bodyStyle, styles.weekBlock]}>
+              {week.map(day => bodyCell(day, currentDate))}
+            </View>
+          )}
+        </View>
+      </View>
     );
   };
 
@@ -57,7 +52,7 @@ MonthlyCalendar.propTypes = {
   headerCell: PropTypes.element,
   title: PropTypes.element,
   bodyCell: PropTypes.element,
-  RNCurrentDate: PropTypes.object,
+  currentDate: PropTypes.object,
   bodyStyle: PropTypes.object,
   headerStyle: PropTypes.object
 };
