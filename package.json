@@ -16,8 +16,14 @@
     "recompose": "^0.26.0"
   },
   "devDependencies": {
+    "babel-eslint": "^8.2.1",
     "babel-jest": "22.1.0",
     "babel-preset-react-native": "4.0.0",
+    "eslint": "^4.15.0",
+    "eslint-config-airbnb": "^16.1.0",
+    "eslint-plugin-import": "^2.8.0",
+    "eslint-plugin-jsx-a11y": "^6.0.3",
+    "eslint-plugin-react": "^7.5.1",
     "jest": "22.1.1",
     "react-test-renderer": "16.2.0"
   },

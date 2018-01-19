@@ -57,18 +57,18 @@ class Calendar extends Component {
       case 'day':
         return {
           unit: 'days',
-          calendar: DailyCalendar
+          Calendar: DailyCalendar
         };
       case 'weekly':
       case 'week':
         return {
           unit: 'weeks',
-          calendar: WeeklyCalendar
+          Calendar: WeeklyCalendar
         };
       default: 
         return {
           unit: 'months',
-          calendar: MonthlyCalendar
+          Calendar: MonthlyCalendar
         };
     }
   }
@@ -90,7 +90,7 @@ class Calendar extends Component {
         {
           [0,1,2].map(swipeIndex => {
             const currentDate = previous.clone().add(swipeIndex, currentView.unit);
-            return <currentView.calendar {...this.props} currentDate={currentDate} />
+            return <currentView.Calendar {...this.props} currentDate={currentDate} />
           })
         }
       </ScrollView>
