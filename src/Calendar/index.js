@@ -4,7 +4,7 @@ import moment from 'moment';
 import { ScrollView, Dimensions } from 'react-native';
 
 import DailyCalendar from './Day';
-//import WeeklyCalendar from './Week';
+import WeeklyCalendar from './Week';
 import MonthlyCalendar from './Month';
 
 const {width} = Dimensions.get("window");
