@@ -1,20 +1,35 @@
 import React from 'react';
+import moment from 'moment';
 import PropTypes from 'prop-types';
 import { ScrollView, View, Text } from 'react-native';
 import styles from './assets/styles';
 import { generateDayArray, groupEvents } from 'src/generics/helpers/calendar';
 
-const defaultHeader = currentDate => (
-  <View style={styles.fixedHeader}>
-    <Text style={styles.day}>{currentDate.format('ddd')}</Text>
-    <Text style={styles.date}>{currentDate.date()}</Text>
-  </View>
-);
+const defaultHeader = currentDate => {
+  const isToday = currentDate.isSame(moment(), 'day');
+  return (
+    <View style={styles.fixedHeader}>
+      <Text style={isToday && { color: '#1F84DD' }}>
+        {currentDate.format('ddd')}
+      </Text>
+      <Text style={[styles.date, isToday && { color: '#1F84DD' }]}>
+        {currentDate.date()}
+      </Text>
+    </View>
+  );
+};
 
 const defaultBody = currentDate => <View style={styles.line} />;
 
 const DailyCalendar = props => {
-  const { headerCell, bodyCell, currentDate, title, bodyStyle, headerStyle } = props;
+  const {
+    headerCell,
+    bodyCell,
+    currentDate,
+    title,
+    bodyStyle,
+    headerStyle
+  } = props;
   return (
     <View style={styles.container}>
       {headerCell(currentDate)}
@@ -37,9 +52,9 @@ const DailyCalendar = props => {
 export default DailyCalendar;
 
 DailyCalendar.propTypes = {
-  headerCell: PropTypes.element,
-  title: PropTypes.element,
-  bodyCell: PropTypes.element,
+  headerCell: PropTypes.func,
+  title: PropTypes.func,
+  bodyCell: PropTypes.func,
   currentDate: PropTypes.object,
   bodyStyle: PropTypes.object,
   headerStyle: PropTypes.object

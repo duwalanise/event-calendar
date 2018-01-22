@@ -52,12 +52,8 @@ const styles = StyleSheet.create({
   blankCell: {
     width: 60
   },
-  day: {
-    color: '#1F84DD'
-  },
   date: {
-    fontSize: 20,
-    color: '#1F84DD'
+    fontSize: 20
   },
   today: {
     width: 22,

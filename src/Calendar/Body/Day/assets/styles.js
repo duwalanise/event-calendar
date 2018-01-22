@@ -40,12 +40,8 @@ const styles = StyleSheet.create({
     paddingTop: 5,
     zIndex: 1
   },
-  day: {
-    color: '#1F84DD'
-  },
   date: {
-    fontSize: 30,
-    color: '#1F84DD'
+    fontSize: 30
   },
   currentTime: {
     alignItems: 'center',

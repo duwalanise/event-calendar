@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import moment from 'moment';
 import PropTypes from 'prop-types';
 import { View, Text, ScrollView } from 'react-native';
 
@@ -9,18 +10,30 @@ import {
 } from 'src/generics/helpers/calendar';
 import styles from './assets/styles';
 
-const defaultBodyCell = (day, currentDate, events) => {
-  const isSameMonth = true;
-  const isToday = false;
-  return <View style={[styles.hourBlock, styles.hourCell]} />;
+const defaultBodyCell = (day, hours, events) => {
+  return (
+    <View key={day.format()} style={[styles.hourBlock, styles.hourCell]} />
+  );
 };
 
-const defaultHeaderCell = currentDate => (
-  <View style={styles.hourBlock}>
-    <Text style={styles.day}>{currentDate.format('ddd')}</Text>
-    <Text style={styles.date}>{currentDate.date()}</Text>
-  </View>
-);
+const defaultHeaderCell = (day, currentDate) => {
+  const isSameMonth = day.isSame(currentDate, 'month');
+  const isToday = day.isSame(moment(), 'day');
+  return (
+    <View key={day.format()} style={styles.hourBlock}>
+      <Text
+        style={{
+          color: isToday ? '#1F84DD' : isSameMonth ? '#000000' : '#939393'
+        }}
+      >
+        {day.format('ddd')}
+      </Text>
+      <Text style={[styles.date, isToday && { color: '#1F84DD' }]}>
+        {day.date()}
+      </Text>
+    </View>
+  );
+};
 
 const WeeklyCalendar = props => {
   const { headerCell, bodyCell, currentDate, bodyStyle, headerStyle } = props;
@@ -29,16 +42,16 @@ const WeeklyCalendar = props => {
     <View style={styles.container}>
       <View style={[headerStyle, styles.header]}>
         <View style={styles.blankCell} />
-        {currentWeek.map(day => headerCell(day))}
+        {currentWeek.map(day => headerCell(day, currentDate))}
       </View>
       <ScrollView style={{ flex: 1 }}>
         {generateDayArray(currentDate).map((hours, idx) => (
-          <View style={styles.row}>
+          <View key={hours.format()} style={styles.row}>
             <View style={styles.hours}>
               <Text>{hours.format('h A')}</Text>
             </View>
             <View style={styles.events}>
-              {currentWeek.map(day => bodyCell(hours))}
+              {currentWeek.map(day => bodyCell(day, hours))}
             </View>
           </View>
         ))}
@@ -50,9 +63,9 @@ const WeeklyCalendar = props => {
 export default WeeklyCalendar;
 
 WeeklyCalendar.propTypes = {
-  headerCell: PropTypes.element,
-  title: PropTypes.element,
-  bodyCell: PropTypes.element,
+  headerCell: PropTypes.func,
+  title: PropTypes.func,
+  bodyCell: PropTypes.func,
   currentDate: PropTypes.object,
   bodyStyle: PropTypes.object,
   headerStyle: PropTypes.object

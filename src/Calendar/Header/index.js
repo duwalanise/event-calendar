@@ -64,6 +64,7 @@ class Header extends Component {
                 date={date}
                 view="month"
                 onDateChange={onDateChange}
+                bodyStyle={{}}
                 headerCell={day => (
                   <View style={styles.dayBlock}>
                     <Text style={styles.dayText}>{day}</Text>
