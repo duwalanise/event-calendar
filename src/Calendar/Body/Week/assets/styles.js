@@ -10,17 +10,16 @@ const styles = StyleSheet.create({
   },
   header: {
     flexDirection: 'row',
-    paddingVertical: 5
+    paddingVertical: 5,
+    borderBottomColor: '#ccc',
+    borderBottomWidth: 1
   },
   row: {
     flexDirection: 'row'
   },
   events: {
-    justifyContent: 'center',
-    alignItems: 'center',
     height: 50,
     flex: 1,
-    padding: 2,
     flexDirection: 'row'
   },
   body: {
@@ -34,9 +33,24 @@ const styles = StyleSheet.create({
   dayText: {
     fontWeight: 'bold'
   },
-  dayBlock: {
+  hourBlock: {
     flex: 1,
     padding: 3
+  },
+  hourCell: {
+    borderBottomWidth: 1,
+    borderRightWidth: 1,
+    borderColor: '#ccc'
+  },
+  hours: {
+    width: 60,
+    paddingHorizontal: 8,
+    justifyContent: 'center',
+    borderColor: '#ccc',
+    borderRightWidth: 1
+  },
+  blankCell: {
+    width: 60
   },
   day: {
     color: '#1F84DD'

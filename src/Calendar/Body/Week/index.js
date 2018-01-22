@@ -2,30 +2,21 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { View, Text, ScrollView } from 'react-native';
 
-import { weekShort, generateWeekArray, generateDayArray } from 'src/generics/helpers/calendar';
+import {
+  weekShort,
+  generateWeekArray,
+  generateDayArray
+} from 'src/generics/helpers/calendar';
 import styles from './assets/styles';
 
 const defaultBodyCell = (day, currentDate, events) => {
   const isSameMonth = true;
   const isToday = false;
-  return (
-    <View style={styles.dayBlock}>
-      <View style={isToday && styles.today}>
-        <Text style={[{ color: !isSameMonth && '#939393' }, isToday && styles.todayText]}>
-          {day.date()}
-        </Text>
-      </View>
-      {(events || []).map(event => (
-        <View style={styles.eventBlock}>
-          <Text style={styles.eventText}>{event.name}</Text>
-        </View>
-      ))}
-    </View>
-  );
+  return <View style={[styles.hourBlock, styles.hourCell]} />;
 };
 
 const defaultHeaderCell = currentDate => (
-  <View style={styles.dayBlock}>
+  <View style={styles.hourBlock}>
     <Text style={styles.day}>{currentDate.format('ddd')}</Text>
     <Text style={styles.date}>{currentDate.date()}</Text>
   </View>
@@ -37,7 +28,7 @@ const WeeklyCalendar = props => {
   return (
     <View style={styles.container}>
       <View style={[headerStyle, styles.header]}>
-        <View style={styles.dayBlock} />
+        <View style={styles.blankCell} />
         {currentWeek.map(day => headerCell(day))}
       </View>
       <ScrollView style={{ flex: 1 }}>
@@ -46,7 +37,9 @@ const WeeklyCalendar = props => {
             <View style={styles.hours}>
               <Text>{hours.format('h A')}</Text>
             </View>
-            <View style={styles.events}>{currentWeek.map(day => bodyCell(hours))}</View>
+            <View style={styles.events}>
+              {currentWeek.map(day => bodyCell(hours))}
+            </View>
           </View>
         ))}
       </ScrollView>
