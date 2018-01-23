@@ -3,7 +3,8 @@ import moment from 'moment';
 import PropTypes from 'prop-types';
 import { ScrollView, View, Text } from 'react-native';
 import styles from './assets/styles';
-import { generateDayArray, groupEvents } from 'src/generics/helpers/calendar';
+import { lifecycle } from 'recompose';
+import { generateDayArray } from 'src/generics/helpers/calendar';
 
 const defaultHeader = currentDate => {
   const isToday = currentDate.isSame(moment(), 'day');
@@ -49,7 +50,14 @@ const DailyCalendar = props => {
   );
 };
 
-export default DailyCalendar;
+export default lifecycle({
+  shouldComponentUpdate(nextProps) {
+    if (!nextProps.currentDate.isSame(this.props.currentDate, 'day')) {
+      return true;
+    }
+    return false;
+  }
+})(DailyCalendar);
 
 DailyCalendar.propTypes = {
   headerCell: PropTypes.func,

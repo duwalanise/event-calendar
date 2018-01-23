@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import moment from 'moment';
 import PropTypes from 'prop-types';
 import { View, Text, ScrollView } from 'react-native';
+import { lifecycle } from 'recompose';
 
 import {
   weekShort,
@@ -60,7 +61,14 @@ const WeeklyCalendar = props => {
   );
 };
 
-export default WeeklyCalendar;
+export default lifecycle({
+  shouldComponentUpdate(nextProps) {
+    if (!nextProps.currentDate.isSame(this.props.currentDate, 'week')) {
+      return true;
+    }
+    return false;
+  }
+})(WeeklyCalendar);
 
 WeeklyCalendar.propTypes = {
   headerCell: PropTypes.func,
