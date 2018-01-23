@@ -54,9 +54,7 @@ const MonthlyCalendar = props => {
       <View style={styles.body}>
         {generateMonthArray(currentDate).map(week => (
           <View key={week[0].format()} style={[bodyStyle, styles.weekBlock]}>
-            {week.map(day => (
-              <View key={day.format()}>{bodyCell(day, currentDate)}</View>
-            ))}
+            {week.map(day => bodyCell(day, currentDate))}
           </View>
         ))}
       </View>
