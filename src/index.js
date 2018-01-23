@@ -9,12 +9,19 @@ export default class App extends Component {
     super(props);
     this.state = {
       date: moment(),
-      view: 'week'
+      view: 'schedule',
+      eventDate: moment()
     };
   }
   onDateChange = date => {
     this.setState(() => ({
       date
+    }));
+  };
+
+  nextPage = () => {
+    this.setState(state => ({
+      eventDate: state.eventDate.clone().add(1, 'months')
     }));
   };
 
@@ -32,7 +39,10 @@ export default class App extends Component {
           onDateChange={this.onDateChange}
         >
           <Calendar.Header onViewChange={this.onViewChange} />
-          <Calendar.Body />
+          <Calendar.Body
+            nextPage={this.nextPage}
+            eventDate={this.state.eventDate}
+          />
         </Calendar>
       </View>
     );

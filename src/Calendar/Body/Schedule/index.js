@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
 import { FlatList } from 'react-native';
+import _ from 'lodash';
 import Row from './Row';
 import styles from './assets/styles';
 import { groupEvents } from 'src/generics/helpers/calendar';
@@ -18,17 +19,21 @@ const generateEvents = events => {
 class ScheduleCalendar extends Component {
   constructor(props) {
     super(props);
-    const { date, events } = this.props;
+    const { eventDate, events } = this.props;
     this.state = {
-      cachedEvents: [{ date, events: generateEvents(events) }]
+      cachedEvents: [{ date: eventDate, events: generateEvents(events) }]
     };
   }
 
+  viewableItemsChanged = evt => {};
+
+  viewabilityConfig = { itemVisiblePercentThreshold: 20 };
+
   componentWillReceiveProps(nextProps) {
-    if (!nextProps.date.isSame(this.props.date)) {
+    if (!nextProps.eventDate.isSame(this.props.eventDate)) {
       this.setState(state => ({
         cachedEvents: state.cachedEvents.concat({
-          date: nextProps.date,
+          date: nextProps.eventDate,
           events: generateEvents(nextProps.events)
         })
       }));
@@ -39,26 +44,31 @@ class ScheduleCalendar extends Component {
     const {
       events,
       onDateChange,
+      nextPage,
+      eventDate,
       headerCell,
       bodyCell,
       date,
       bodyStyle,
       headerStyle
-    } = props;
+    } = this.props;
     return (
       <FlatList
         style={styles.container}
         renderItem={Row}
-        data={cachedEvents}
+        data={this.state.cachedEvents}
         keyExtractor={item => item._id}
-        scrollEventThrottle={16}
-        onEndReached={() =>
-          _.throttle(onDateChange(date.clone().add(1, 'months')), 100)()
-        }
-        onEndReachedThreshold={200}
+        onEndReached={() => _.throttle(() => nextPage(), 100)()}
+        onEndReachedThreshold={10}
+        onViewableItemsChanged={this.viewableItemsChanged}
+        viewabilityConfig={this.viewabilityConfig}
       />
     );
   }
 }
 
 export default ScheduleCalendar;
+
+ScheduleCalendar.defaultProps = {
+  nextPage: () => null
+};

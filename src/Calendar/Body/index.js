@@ -6,6 +6,7 @@ import { ScrollView, Dimensions } from 'react-native';
 import DailyCalendar from './Day';
 import WeeklyCalendar from './Week';
 import MonthlyCalendar from './Month';
+import ScheduleCalendar from './Schedule';
 
 const { width } = Dimensions.get('window');
 
@@ -66,6 +67,7 @@ class Calendar extends Component {
 
   render() {
     const { view, date } = this.props;
+    if (view === 'schedule') return <ScheduleCalendar {...this.props} />;
     const currentView = this.generateCalendar(view);
     const previous = date.clone().subtract(1, currentView.unit);
     return (

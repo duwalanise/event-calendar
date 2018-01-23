@@ -2,8 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
 import { View, Text, TouchableOpacity } from 'react-native';
-import { Actions } from 'react-native-router-flux';
-import routeConstants from 'app/constants/routeConstants';
 import styles from './assets/styles';
 
 // item = {
@@ -31,7 +29,7 @@ import styles from './assets/styles';
 // };
 
 const ScheduleRow = ({ item }) => {
-  if (!item.events)
+  if (item.events.length === 0)
     return (
       <View style={styles.noEventMonth}>
         <View style={styles.noEventMonthHeader}>
