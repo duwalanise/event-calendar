@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import moment from 'moment';
 import _ from 'lodash';
 import { Text, View, TouchableOpacity, Animated } from 'react-native';
 import styles from './assets/styles';
@@ -65,6 +66,9 @@ class Header extends Component {
     const { animationCalendar, animationView } = this.state;
     const { date, view, onDateChange, onViewChange } = this.props;
     const selectedView = _.find(viewList, { id: view });
+    const displayDate = date.isSame(moment(), 'year')
+      ? date.format('MMMM')
+      : date.format('MMMM YYYY');
     const AnimatedIcon = Animated.createAnimatedComponent(Icon);
     const spin = animationCalendar.interpolate({
       inputRange: [0, 1],
@@ -79,7 +83,7 @@ class Header extends Component {
               selectedView.id === 'month' ? null : this.toggleDropdownCalendar()
             }
           >
-            <Text style={{ fontSize: 20 }}>{date.format('MMMM')}</Text>
+            <Text style={{ fontSize: 20 }}>{displayDate}</Text>
             {selectedView.id !== 'month' && (
               <AnimatedIcon
                 name={'menu-down'}
