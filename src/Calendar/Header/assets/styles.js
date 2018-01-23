@@ -2,14 +2,18 @@ import { StyleSheet } from 'react-native';
 
 const styles = StyleSheet.create({
   container: {
+    shadowOffset: { width: 0, height: 3 },
+    shadowRadius: 2,
+    shadowColor: '#ccc',
+    shadowOpacity: 0.8,
+    zIndex: 1
+  },
+  containerHeader: {
     flexDirection: 'row',
     height: 55,
     paddingRight: 20,
     paddingLeft: 20,
     backgroundColor: '#fff',
-    zIndex: 1,
-    borderBottomColor: '#ccc',
-    borderBottomWidth: 1,
     justifyContent: 'space-between',
     alignItems: 'center'
   },
@@ -36,8 +40,8 @@ const styles = StyleSheet.create({
     height: 65,
     paddingLeft: 20,
     alignItems: 'center',
-    borderBottomColor: '#ccc',
-    borderBottomWidth: 1
+    borderTopColor: '#ccc',
+    borderTopWidth: 1
   },
   text: {
     marginTop: -3,
