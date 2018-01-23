@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import moment from 'moment';
 import PropTypes from 'prop-types';
 import { View, Text } from 'react-native';
+import { lifecycle } from 'recompose';
 
 import { weekShort, generateMonthArray } from 'src/generics/helpers/calendar';
 import styles from './assets/styles';
@@ -62,7 +63,14 @@ const MonthlyCalendar = props => {
   );
 };
 
-export default MonthlyCalendar;
+export default lifecycle({
+  shouldComponentUpdate(nextProps) {
+    if (!nextProps.currentDate.isSame(this.props.currentDate, 'month')) {
+      return true;
+    }
+    return false;
+  }
+})(MonthlyCalendar);
 
 MonthlyCalendar.propTypes = {
   headerCell: PropTypes.func,

@@ -55,7 +55,7 @@ class Header extends Component {
   shouldComponentUpdate(nextProps, nextState) {
     if (
       nextProps.view !== this.props.view ||
-      !nextProps.date.isSame(this.props.date)
+      !nextProps.date.isSame(this.props.date, 'month')
     )
       return true;
     return false;
