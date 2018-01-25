@@ -2,12 +2,12 @@ import { StyleSheet } from 'react-native';
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    flex         : 1,
     flexDirection: 'row',
-    paddingTop: 15
+    paddingTop   : 15
   },
   dateColumn: {
-    width: 60,
+    width     : 60,
     alignItems: 'center'
   },
   day: {
@@ -17,19 +17,19 @@ const styles = StyleSheet.create({
     fontSize: 30
   },
   eventColumn: {
-    flex: 1,
+    flex             : 1,
     paddingHorizontal: 15
   },
   eventBlock: {
-    borderRadius: 3,
+    borderRadius   : 3,
     backgroundColor: '#7D1FDD',
-    height: 50,
-    paddingTop: 5,
-    paddingLeft: 15,
-    marginBottom: 10
+    height         : 50,
+    paddingTop     : 5,
+    paddingLeft    : 15,
+    marginBottom   : 10
   },
   eventTitle: {
-    color: '#fff',
+    color     : '#fff',
     fontWeight: 'bold'
   },
   eventTime: {
@@ -40,19 +40,19 @@ const styles = StyleSheet.create({
   },
   noEventText: {
     fontSize: 14,
-    color: '#979797'
+    color   : '#979797'
   },
   noEventMonth: {
     flex: 1
   },
   noEventMonthHeader: {
-    marginLeft: 20,
-    paddingVertical: 20,
+    marginLeft       : 20,
+    paddingVertical  : 20,
     borderBottomColor: '#ccc',
     borderBottomWidth: 1
   },
   noEventMonthBody: {
-    paddingVertical: 40,
+    paddingVertical  : 40,
     paddingHorizontal: 20
   },
   noEventMonthText: {

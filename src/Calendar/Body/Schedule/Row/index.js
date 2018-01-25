@@ -29,7 +29,7 @@ import styles from './assets/styles';
 // };
 
 const ScheduleRow = ({ item }) => {
-  if (item.events.length === 0)
+  if(item.events.length === 0)
     return (
       <View style={styles.noEventMonth}>
         <View style={styles.noEventMonthHeader}>
@@ -49,7 +49,7 @@ const ScheduleRow = ({ item }) => {
         style={styles.dateColumn}
         onPress={() =>
           Actions[routeConstants.EVENT]({
-            entity: 'event',
+            entity  : 'event',
             readonly: false
           })
         }
@@ -64,9 +64,9 @@ const ScheduleRow = ({ item }) => {
             style={styles.eventBlock}
             onPress={() =>
               Actions[routeConstants.EVENT]({
-                entity: 'event',
-                item: dayEvent,
-                itemId: dayEvent._id,
+                entity  : 'event',
+                item    : dayEvent,
+                itemId  : dayEvent._id,
                 readonly: true
               })
             }

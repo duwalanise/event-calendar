@@ -31,11 +31,19 @@ export default class App extends Component {
     }));
   };
   render() {
+    const events = [
+      {
+        startDate: moment().set('hour', 4),
+        endDate: moment().set('hour', 6),
+        name: 'Test Event'
+      }
+    ];
     return (
       <View style={styles.container}>
         <Calendar
           view={this.state.view}
           date={this.state.date}
+          events={events}
           onDateChange={this.onDateChange}
         >
           <Calendar.Header onViewChange={this.onViewChange} />

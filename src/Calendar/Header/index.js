@@ -5,7 +5,6 @@ import _ from 'lodash';
 import { Text, View, TouchableOpacity, Animated } from 'react-native';
 import styles from './assets/styles';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import AnimatedIcon from 'react-native-vector-icons/MaterialCommunityIcons';
 import Calendar from 'src/Calendar/Body';
 
 export const viewList = [
@@ -20,58 +19,52 @@ class Header extends Component {
     super(props);
     this.state = {
       animationCalendar: new Animated.Value(0),
-      animationView: new Animated.Value(0)
+      animationView    : new Animated.Value(0)
     };
   }
 
   componentDidMount() {
-    this.state.animationCalendar.addListener(
-      ({ value }) => (this._value = value)
-    );
+    this.state.animationCalendar.addListener(({ value }) => (this._value = value));
     this.state.animationView.addListener(({ value }) => (this._value = value));
   }
 
   toggleDropdownCalendar = () => {
     Animated.timing(this.state.animationView, {
-      toValue: 0,
+      toValue : 0,
       duration: 300
     }).start();
     Animated.timing(this.state.animationCalendar, {
-      toValue: this.state.animationCalendar._value ? 0 : 1,
+      toValue : this.state.animationCalendar._value ? 0 : 1,
       duration: 300
     }).start();
   };
 
   toggleDropdownView = () => {
     Animated.timing(this.state.animationCalendar, {
-      toValue: 0,
+      toValue : 0,
       duration: 300
     }).start();
     Animated.timing(this.state.animationView, {
-      toValue: this.state.animationView._value ? 0 : 1,
+      toValue : this.state.animationView._value ? 0 : 1,
       duration: 300
     }).start();
   };
 
-  shouldComponentUpdate(nextProps, nextState) {
-    if (
+  shouldComponentUpdate(nextProps) {
+    return (
       nextProps.view !== this.props.view ||
       !nextProps.date.isSame(this.props.date, 'month')
-    )
-      return true;
-    return false;
+    );
   }
 
   render() {
     const { animationCalendar, animationView } = this.state;
     const { date, view, onDateChange, onViewChange } = this.props;
     const selectedView = _.find(viewList, { id: view });
-    const displayDate = date.isSame(moment(), 'year')
-      ? date.format('MMMM')
-      : date.format('MMMM YYYY');
+    const displayDate = date.isSame(moment(), 'year') ? date.format('MMMM') : date.format('MMMM YYYY');
     const AnimatedIcon = Animated.createAnimatedComponent(Icon);
     const spin = animationCalendar.interpolate({
-      inputRange: [0, 1],
+      inputRange : [0, 1],
       outputRange: ['0 deg', '180 deg']
     });
     return (
@@ -79,9 +72,8 @@ class Header extends Component {
         <View style={styles.containerHeader}>
           <TouchableOpacity
             style={styles.panel}
-            onPress={() =>
-              selectedView.id === 'month' ? null : this.toggleDropdownCalendar()
-            }
+            onPress={() => this.toggleDropdownCalendar()}
+            disabled={selectedView.id === 'month'}
           >
             <Text style={{ fontSize: 20 }}>{displayDate}</Text>
             {selectedView.id !== 'month' && (
@@ -99,10 +91,7 @@ class Header extends Component {
               />
             )}
           </TouchableOpacity>
-          <TouchableOpacity
-            style={styles.panel}
-            onPress={() => this.toggleDropdownView()}
-          >
+          <TouchableOpacity style={styles.panel} onPress={() => this.toggleDropdownView()}>
             <Icon name={selectedView.icon} size={21} color="#939393" />
             <Text style={styles.rightPanelText}>{selectedView.label}</Text>
           </TouchableOpacity>
@@ -110,8 +99,8 @@ class Header extends Component {
         <Animated.View
           style={{
             overflow: 'hidden',
-            height: animationCalendar.interpolate({
-              inputRange: [0, 1],
+            height  : animationCalendar.interpolate({
+              inputRange : [0, 1],
               outputRange: [0, 250]
             })
           }}
@@ -127,7 +116,7 @@ class Header extends Component {
               </View>
             )}
             bodyCell={(day, currentDate) => {
-              if (day.isSame(currentDate, 'month'))
+              if(day.isSame(currentDate, 'month'))
                 return (
                   <TouchableOpacity
                     onPress={() => {
@@ -147,25 +136,25 @@ class Header extends Component {
         <Animated.View
           style={{
             overflow: 'hidden',
-            height: animationView.interpolate({
-              inputRange: [0, 1],
+            height  : animationView.interpolate({
+              inputRange : [0, 1],
               outputRange: [0, 250]
             })
           }}
         >
-          {viewList.map(view => {
-            const color = view.id === selectedView.id ? '#1F84DD' : '#939393';
+          {viewList.map(viewObj => {
+            const color = viewObj.id === selectedView.id ? '#1F84DD' : '#939393';
             return (
               <TouchableOpacity
-                key={view.id}
+                key={viewObj.id}
                 style={styles.list}
                 onPress={() => {
-                  onViewChange(view.id);
+                  onViewChange(viewObj.id);
                   this.toggleDropdownView();
                 }}
               >
-                <Icon name={view.icon} size={21} color={color} />
-                <Text style={[styles.text, { color }]}>{view.label}</Text>
+                <Icon name={viewObj.icon} size={21} color={color} />
+                <Text style={[styles.text, { color }]}>{viewObj.label}</Text>
               </TouchableOpacity>
             );
           })}
@@ -176,3 +165,10 @@ class Header extends Component {
 }
 
 export default Header;
+
+Header.propTypes = {
+  date        : PropTypes.object,
+  onDateChange: PropTypes.func,
+  onViewChange: PropTypes.func,
+  view        : PropTypes.string,
+};

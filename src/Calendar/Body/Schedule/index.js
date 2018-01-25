@@ -8,10 +8,10 @@ import styles from './assets/styles';
 import { groupEvents } from 'src/generics/helpers/calendar';
 
 const generateEvents = events => {
-  if (!events) return [];
+  if(!events)return [];
   const dayGroup = groupEvents(events);
-  return Object.Keys(dayGroup).map(value => ({
-    date: moment(value),
+  return Object.keys(dayGroup).map(value => ({
+    date  : moment(value),
     events: dayGroup[value]
   }));
 };
@@ -19,49 +19,45 @@ const generateEvents = events => {
 class ScheduleCalendar extends Component {
   constructor(props) {
     super(props);
-    const { eventDate, events } = this.props;
     this.state = {
-      cachedEvents: [{ date: eventDate, events: generateEvents(events) }]
+      cachedEvents: []
     };
   }
 
-  viewableItemsChanged = evt => {};
+  // viewableItemsChanged = evt => {};
 
   viewabilityConfig = { itemVisiblePercentThreshold: 20 };
 
   componentWillReceiveProps(nextProps) {
-    if (!nextProps.eventDate.isSame(this.props.eventDate)) {
+    if(nextProps.events && nextProps.events !== this.props.events) 
       this.setState(state => ({
         cachedEvents: state.cachedEvents.concat({
-          date: nextProps.eventDate,
+          date  : nextProps.eventDate.clone(),
           events: generateEvents(nextProps.events)
         })
       }));
-    }
+  }
+
+  shouldComponentUpdate(nextProps) {
+    return (
+      !nextProps.eventDate.isSame(this.props.eventDate) ||
+      (nextProps.events && nextProps.events !== this.props.events)
+    );
   }
 
   render() {
-    const {
-      events,
-      onDateChange,
-      nextPage,
-      eventDate,
-      headerCell,
-      bodyCell,
-      date,
-      bodyStyle,
-      headerStyle
-    } = this.props;
     return (
       <FlatList
         style={styles.container}
         renderItem={Row}
         data={this.state.cachedEvents}
         keyExtractor={item => item._id}
-        onEndReached={() => _.throttle(() => nextPage(), 100)()}
-        onEndReachedThreshold={10}
+        scrollEventThrottle={16}
+        onEndReached={() => _.throttle(() => this.props.nextPage(), 100)()}
+        onEndReachedThreshold={0}
         onViewableItemsChanged={this.viewableItemsChanged}
-        viewabilityConfig={this.viewabilityConfig}
+        
+        // viewabilityConfig={this.viewabilityConfig}
       />
     );
   }
@@ -71,4 +67,10 @@ export default ScheduleCalendar;
 
 ScheduleCalendar.defaultProps = {
   nextPage: () => null
+};
+
+ScheduleCalendar.propTypes = {
+  eventDate: PropTypes.object,
+  events   : PropTypes.object,
+  nextPage : PropTypes.func
 };

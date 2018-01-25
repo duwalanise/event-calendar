@@ -1,20 +1,14 @@
-import React, { Component } from 'react';
+import React from 'react';
 import moment from 'moment';
 import PropTypes from 'prop-types';
 import { View, Text, ScrollView } from 'react-native';
-import { lifecycle } from 'recompose';
+import { lifecycle, compose, defaultProps } from 'recompose';
 
-import {
-  weekShort,
-  generateWeekArray,
-  generateDayArray
-} from 'src/generics/helpers/calendar';
+import { generateWeekArray, generateDayArray, findEventsInADay, getEventPosition } from 'src/generics/helpers/calendar';
 import styles from './assets/styles';
 
-const defaultBodyCell = (day, hours, events) => {
-  return (
-    <View key={day.format()} style={[styles.hourBlock, styles.hourCell]} />
-  );
+const defaultBodyCell = day => {
+  return <View key={day.format()} style={[styles.hourBlock, styles.hourCell]} />;
 };
 
 const defaultHeaderCell = (day, currentDate) => {
@@ -29,15 +23,13 @@ const defaultHeaderCell = (day, currentDate) => {
       >
         {day.format('ddd')}
       </Text>
-      <Text style={[styles.date, isToday && { color: '#1F84DD' }]}>
-        {day.date()}
-      </Text>
+      <Text style={[styles.date, isToday && { color: '#1F84DD' }]}>{day.date()}</Text>
     </View>
   );
 };
 
 const WeeklyCalendar = props => {
-  const { headerCell, bodyCell, currentDate, bodyStyle, headerStyle } = props;
+  const { headerCell, bodyCell, currentDate, bodyStyle, headerStyle, events } = props;
   const currentWeek = generateWeekArray(currentDate);
   return (
     <View style={styles.container}>
@@ -46,43 +38,60 @@ const WeeklyCalendar = props => {
         {currentWeek.map(day => headerCell(day, currentDate))}
       </View>
       <ScrollView style={{ flex: 1 }}>
-        {generateDayArray(currentDate).map((hours, idx) => (
+        {generateDayArray(currentDate).map(hours => (
           <View key={hours.format()} style={styles.row}>
             <View style={styles.hours}>
               <Text>{hours.format('h A')}</Text>
             </View>
-            <View style={styles.events}>
-              {currentWeek.map(day => bodyCell(day, hours))}
-            </View>
+            <View style={[styles.events, bodyStyle]}>{currentWeek.map(day => bodyCell(day, hours))}</View>
           </View>
         ))}
+        <View style={styles.eventsContainer}>
+          {
+            currentWeek.map(day =>
+              <View style={{ flex: 1 }}>
+                {
+                  findEventsInADay(events, day).map(event =>
+                    <View
+                      style={[
+                        styles.eventBlock,
+                        getEventPosition(moment(event.startDate), moment(event.endDate))
+                      ]}>
+                      <Text style={styles.eventText}>{event.name}</Text>
+                    </View>
+                  )
+                }
+              </View>
+            )
+          }
+        </View>
       </ScrollView>
     </View>
   );
 };
 
-export default lifecycle({
-  shouldComponentUpdate(nextProps) {
-    if (!nextProps.currentDate.isSame(this.props.currentDate, 'week')) {
-      return true;
+export default compose(
+  lifecycle({
+    shouldComponentUpdate(nextProps) {
+      return (!nextProps.currentDate.isSame(this.props.currentDate, 'week'));
     }
-    return false;
-  }
-})(WeeklyCalendar);
+  }),
+  defaultProps({
+    headerCell : defaultHeaderCell,
+    title      : null,
+    bodyCell   : defaultBodyCell,
+    bodyStyle  : {},
+    headerStyle: {}
+  })
+)(WeeklyCalendar);
 
 WeeklyCalendar.propTypes = {
-  headerCell: PropTypes.func,
-  title: PropTypes.func,
-  bodyCell: PropTypes.func,
+  bodyCell   : PropTypes.func,
+  bodyStyle  : PropTypes.object,
   currentDate: PropTypes.object,
-  bodyStyle: PropTypes.object,
-  headerStyle: PropTypes.object
+  events     : PropTypes.object,
+  headerCell : PropTypes.func,
+  headerStyle: PropTypes.object,
+  title      : PropTypes.func
 };
 
-WeeklyCalendar.defaultProps = {
-  headerCell: defaultHeaderCell,
-  title: null,
-  bodyCell: defaultBodyCell,
-  bodyStyle: {},
-  headerStyle: {}
-};
